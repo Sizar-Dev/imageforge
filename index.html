@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImageForge - Universal Image Converter</title>
+  <meta name="description" content="Convert any image format to any other format. 35 input formats. 17 output formats. Zero quality loss.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: { DEFAULT: '#EA580C', light: '#F97316', dark: '#C2410C' },
+            accent: '#2563EB',
+            surface: { 50: '#1C1917', 100: '#292524', 200: '#44403C', 300: '#57534E' },
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen antialiased overflow-x-hidden">
+
+  <!-- Animated Mesh Background -->
+  <div class="mesh-bg" aria-hidden="true">
+    <div class="mesh-orb mesh-orb--orange"></div>
+    <div class="mesh-orb mesh-orb--blue"></div>
+    <div class="mesh-orb mesh-orb--purple"></div>
+  </div>
+
+  <!-- Grain overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <header class="glass-header sticky top-0 z-50">
+    <div class="w-full px-4 sm:px-6 h-full flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="logo-mark">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        </div>
+        <span class="text-lg font-bold tracking-tight">Image<span class="text-brand">Forge</span></span>
+      </div>
+      <button id="healthIndicator" class="health-pill" aria-label="Service status" title="All systems operational">
+        <span id="healthDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="healthText">Ready</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+
+    <!-- Hero -->
+    <section id="heroSection" class="text-center mb-16 sm:mb-20">
+      <div class="hero-badge-row">
+        <span class="hero-badge">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          35 Formats Supported
+        </span>
+      </div>
+      <h1 class="hero-title">
+        Convert <span class="hero-gradient-text">Any Image</span><br>to Any Format
+      </h1>
+      <p class="hero-subtitle">
+        Zero quality loss. Batch conversion with real-time progress.<br class="hidden sm:block">
+        35 input formats. 17 output formats. Every image type in the world.
+      </p>
+      <div class="hero-feature-row">
+        <span class="hero-feature">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          Zero Quality Loss
+        </span>
+        <span class="hero-feature">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          35 Formats
+        </span>
+        <span class="hero-feature">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          Batch Convert
+        </span>
+        <span class="hero-feature">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          No File Size Limit
+        </span>
+      </div>
+    </section>
+
+    <!-- Upload Zone -->
+    <section id="uploadSection" class="mb-12">
+      <div id="dropZone" class="drop-zone">
+        <input type="file" id="fileInput" multiple class="hidden" accept="image/*,.heic,.heif,.raw,.cr2,.nef,.arw,.dng,.orf,.raf,.rw2,.pef,.jp2,.j2k,.tga,.dds,.exr,.hdr,.pbm,.pgm,.ppm,.qoi,.jxl,.svg,.svgz,.pdf">
+        <div class="drop-zone-inner">
+          <div class="upload-icon-ring">
+            <svg class="w-9 h-9 text-zinc-400 group-hover:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="text-center">
+            <p class="text-zinc-100 font-semibold text-lg mb-1">Drop your images here</p>
+            <p class="text-zinc-500 text-sm">or <span class="text-brand font-medium cursor-pointer hover:underline">browse files</span></p>
+          </div>
+          <p class="text-zinc-600 text-xs mt-1">JPEG, PNG, GIF, WebP, AVIF, TIFF, HEIC, SVG, SVGZ, PDF, RAW, CR2, NEF and 23 more</p>
+        </div>
+        <div class="drop-zone-glow"></div>
+      </div>
+    </section>
+
+    <!-- Format Selector + Actions -->
+    <section id="actionsSection" class="hidden mb-8 relative" style="z-index: 30;">
+      <div class="glass-panel p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-6">
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium text-zinc-400 mb-2">Convert To</label>
+            <div class="relative" id="formatSelector">
+              <button id="formatButton" class="format-button">
+                <span id="formatButtonText" class="text-zinc-400">Select output format...</span>
+                <svg class="w-4 h-4 text-zinc-500 transition-transform duration-150" id="formatChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div id="formatDropdown" class="hidden absolute top-full left-0 right-0 mt-2 glass-dropdown z-50">
+                <div class="p-2 border-b border-white/[0.06]">
+                  <input type="text" id="formatSearch" placeholder="Search formats..." class="search-input">
+                </div>
+                <div id="formatOptions" class="max-h-64 overflow-y-auto p-1"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <button id="convertBtn" disabled class="convert-button">
+              <svg class="w-4.5 h-4.5 convert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              <svg class="w-4.5 h-4.5 convert-spinner hidden" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+              <span class="convert-label">Convert</span>
+            </button>
+            <button id="clearBtn" class="icon-button" title="Clear all files">
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+        <p id="fileCount" class="text-xs text-zinc-600 mt-3"></p>
+      </div>
+    </section>
+
+    <!-- File Queue -->
+    <section id="queueSection" class="hidden mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Files</h2>
+        <span id="queueStats" class="text-xs text-zinc-600"></span>
+      </div>
+      <div id="fileQueue" class="space-y-2"></div>
+    </section>
+
+    <!-- Bulk Actions -->
+    <section id="bulkActions" class="hidden mb-12">
+      <div class="glass-panel p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div id="bulkProgressRing" class="hidden">
+            <svg class="w-5 h-5 text-brand animate-spin" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+          </div>
+          <span id="bulkStatus" class="text-sm text-zinc-400"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="downloadAllBtn" class="hidden action-button action-primary">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download All (ZIP)
+          </button>
+          <button id="retryAllBtn" class="hidden action-button action-secondary">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            Retry Failed
+          </button>
+          <button id="resetBtn" class="hidden action-button action-secondary">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            New Conversion
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supported Formats Reference -->
+    <section id="formatsRef" class="mb-12">
+      <div class="text-center mb-8">
+        <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-2">Supported Formats</h2>
+        <p class="text-xs text-zinc-600">Click any format below to learn more about it</p>
+      </div>
+      <div id="formatGrid" class="format-grid-container"></div>
+    </section>
+
+  </main>
+
+  <footer class="relative z-10 border-t border-white/[0.04] py-8 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-2">
+      <p class="text-zinc-600 text-xs">ImageForge. All conversions happen on our server. Your files are automatically deleted after 10 minutes.</p>
+      <p class="text-zinc-700 text-xs">Crafted with precision by <span class="text-zinc-500 font-medium">Sizar</span></p>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
