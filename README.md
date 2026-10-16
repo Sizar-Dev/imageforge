@@ -56,7 +56,7 @@ Convert virtually any image format to modern web standards, professional archiva
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/AminOu-CoDe/imageforge.git
+   git clone https://github.com/Sizar-Dev/imageforge.git
    cd imageforge
    ```
 
