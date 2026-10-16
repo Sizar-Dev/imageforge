@@ -175,5 +175,5 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/AminOu-CoDe">AminOu-CoDe</a></sub>
+  <sub>Built with ❤️ by <a href="https://github.com/Sizar-Dev">Sizar-Dev</a></sub>
 </div>
